@@ -1,8 +1,8 @@
 add_rules("mode.debug", "mode.release")
-
+add_rules("plugin.compile_commands.autoupdate", {outputdir = "./"})
 target("foo")
     set_kind("shared")
-    add_files("src/foo.cpp")
+    add_files("src/foo.cpp","src/objective/*.cpp")
 
 target("gorge_core")
     set_kind("binary")
@@ -77,4 +77,3 @@ target("gorge_core")
 --
 -- @endcode
 --
-

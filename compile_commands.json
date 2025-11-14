@@ -1,26 +1,26 @@
 [
 {
   "directory": "C:\\Users\\daxingyi\\CLionProjects\\gorge_core",
-  "arguments": ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe", "/c", "/nologo", "/MD", "/O2", "/EHsc", "/DNDEBUG", "/Fobuild\\.objs\\foo\\windows\\x64\\release\\src\\foo.cpp.obj", "src\\foo.cpp"],
+  "arguments": ["C:\\root\\clang+llvm-20.1.0-x86_64-pc-windows-msvc\\bin\\clang.exe", "-c", "-Qunused-arguments", "-m64", "--target=x86_64-windows-msvc", "-O3", "-std=c++23", "-fexceptions", "-fcxx-exceptions", "-DNDEBUG", "-o", "build\\.objs\\foo\\windows\\x64\\release\\src\\foo.cpp.obj", "src\\foo.cpp"],
   "file": "src\\foo.cpp"
 },
 {
   "directory": "C:\\Users\\daxingyi\\CLionProjects\\gorge_core",
-  "arguments": ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe", "/c", "/nologo", "/MD", "/O2", "/EHsc", "/DNDEBUG", "/Fobuild\\.objs\\foo\\windows\\x64\\release\\src\\objective\\annotation.cpp.obj", "src\\objective\\annotation.cpp"],
+  "arguments": ["C:\\root\\clang+llvm-20.1.0-x86_64-pc-windows-msvc\\bin\\clang.exe", "-c", "-Qunused-arguments", "-m64", "--target=x86_64-windows-msvc", "-O3", "-std=c++23", "-fexceptions", "-fcxx-exceptions", "-DNDEBUG", "-o", "build\\.objs\\foo\\windows\\x64\\release\\src\\objective\\annotation.cpp.obj", "src\\objective\\annotation.cpp"],
   "file": "src\\objective\\annotation.cpp"
 },
 {
   "directory": "C:\\Users\\daxingyi\\CLionProjects\\gorge_core",
-  "arguments": ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe", "/c", "/nologo", "/MD", "/O2", "/EHsc", "/DNDEBUG", "/Fobuild\\.objs\\foo\\windows\\x64\\release\\src\\objective\\basic_type.cpp.obj", "src\\objective\\basic_type.cpp"],
+  "arguments": ["C:\\root\\clang+llvm-20.1.0-x86_64-pc-windows-msvc\\bin\\clang.exe", "-c", "-Qunused-arguments", "-m64", "--target=x86_64-windows-msvc", "-O3", "-std=c++23", "-fexceptions", "-fcxx-exceptions", "-DNDEBUG", "-o", "build\\.objs\\foo\\windows\\x64\\release\\src\\objective\\basic_type.cpp.obj", "src\\objective\\basic_type.cpp"],
   "file": "src\\objective\\basic_type.cpp"
 },
 {
   "directory": "C:\\Users\\daxingyi\\CLionProjects\\gorge_core",
-  "arguments": ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe", "/c", "/nologo", "/MD", "/O2", "/EHsc", "/DNDEBUG", "/Fobuild\\.objs\\foo\\windows\\x64\\release\\src\\objective\\gorge_type.cpp.obj", "src\\objective\\gorge_type.cpp"],
+  "arguments": ["C:\\root\\clang+llvm-20.1.0-x86_64-pc-windows-msvc\\bin\\clang.exe", "-c", "-Qunused-arguments", "-m64", "--target=x86_64-windows-msvc", "-O3", "-std=c++23", "-fexceptions", "-fcxx-exceptions", "-DNDEBUG", "-o", "build\\.objs\\foo\\windows\\x64\\release\\src\\objective\\gorge_type.cpp.obj", "src\\objective\\gorge_type.cpp"],
   "file": "src\\objective\\gorge_type.cpp"
 },
 {
   "directory": "C:\\Users\\daxingyi\\CLionProjects\\gorge_core",
-  "arguments": ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\cl.exe", "/c", "/nologo", "/MD", "/O2", "/EHsc", "/DNDEBUG", "/Fobuild\\.objs\\gorge_core\\windows\\x64\\release\\src\\main.cpp.obj", "src\\main.cpp"],
+  "arguments": ["C:\\root\\clang+llvm-20.1.0-x86_64-pc-windows-msvc\\bin\\clang.exe", "-c", "-Qunused-arguments", "-m64", "--target=x86_64-windows-msvc", "-fvisibility=hidden", "-fvisibility-inlines-hidden", "-O3", "-std=c++23", "-fexceptions", "-fcxx-exceptions", "-DNDEBUG", "-o", "build\\.objs\\gorge_core\\windows\\x64\\release\\src\\main.cpp.obj", "src\\main.cpp"],
   "file": "src\\main.cpp"
 }]

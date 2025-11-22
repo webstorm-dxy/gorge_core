@@ -1,7 +1,6 @@
 #pragma once
 
 #include "basic_type.h"
-#include <any>
 #include <memory>
 #include <string>
 #include <vector>
@@ -44,18 +43,15 @@ public:
      * @param other 目标类
      * @return 是否是泛型参数类
      */
-    bool is_generics_instance(GorgeType* other) const;
+    bool is_generics_instance(const std::unique_ptr<GorgeType>& other) const;
 
     // TODO：需要改动，考虑subtype
     /**
-     * TODO：换用智能的指针保证内存安全
+     * 判断两个类的等价性
      * @param other 目标类
      * @return 对比
      */
-    bool equals(GorgeType* other) const;
-
-    // TODO：论证这里是否可以使用重载运算符实现，因为对于C++来说，这里直接采用函数的方式比较有点不现实
-    bool equals(std::any other) const;
+    bool operator==(const GorgeType& other) const;
 
 
 };

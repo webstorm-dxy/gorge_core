@@ -3,20 +3,22 @@
 #include <functional>
 #include <string>
 #include <utility>
+#include <boost/functional/hash.hpp>
 
 template<typename... Args>
-GorgeType::GorgeType(const BasicType basic_type, std::string class_name, std::string namespace_name,
+GorgeType::GorgeType(const BasicType basic_type, OptString class_name, OptString namespace_name,
                      const bool is_generics, Args &&... args)
     : basic_type(basic_type), class_name(std::move(class_name)), namespace_name(std::move(namespace_name)),
-      is_generics(is_generics), sub_types{std::forward<Args>(args)...} {}
+      is_generics(is_generics), sub_types{std::forward<Args>(args)...} {
+}
 
-std::string GorgeType::get_full_name() const {
-    if (!namespace_name.empty()) {
+OptString GorgeType::get_full_name() const {
+    if (namespace_name.has_value()) {
         return this->class_name;
     } else {
-        return this->namespace_name + "." + this->class_name;
+        return this->namespace_name.value() + "." + this->class_name.value();
     }
-    return full_name;
+    return std::nullopt;
 }
 
 bool GorgeType::is_generics_instance(const std::unique_ptr<GorgeType> &other) const {
@@ -50,3 +52,20 @@ bool GorgeType::operator==(const GorgeType &other) const {
            && this->namespace_name == other.namespace_name
            && sub_types_is_equals;
 }
+
+std::size_t GorgeType::get_hash_code() const {
+    std::size_t seed = 0;
+
+    boost::hash_combine(seed, static_cast<int>(this->basic_type));
+    boost::hash_combine(seed, this->class_name);
+    boost::hash_combine(seed, this->namespace_name);
+
+    return seed;
+}
+
+const GorgeType GorgeType::Int(BasicType::Int,std::nullopt,std::nullopt,false);
+const GorgeType GorgeType::Float(BasicType::Float,std::nullopt,std::nullopt,false);
+const GorgeType GorgeType::Bool(BasicType::Bool,std::nullopt,std::nullopt,false);
+const GorgeType GorgeType::String(BasicType::String,std::nullopt,std::nullopt,false);
+//TODO:处理这下面的
+// const GorgeType GorgeType::IntArray(BasicType::Int,std::nullopt,std::nullopt,true);

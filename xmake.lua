@@ -1,10 +1,11 @@
 add_rules("mode.debug", "mode.release")
-
+add_requires("boost")
 add_rules("plugin.compile_commands.autoupdate", {outputdir = "./"})
 target("foo")
     set_kind("shared")
     set_toolchains("clang")
     set_languages("c++23")
+    add_packages("boost")
     add_files("src/foo.cpp","src/objective/*.cpp")
 
 target("gorge_core")

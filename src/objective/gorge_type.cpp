@@ -67,5 +67,14 @@ const GorgeType GorgeType::Int(BasicType::Int,std::nullopt,std::nullopt,false);
 const GorgeType GorgeType::Float(BasicType::Float,std::nullopt,std::nullopt,false);
 const GorgeType GorgeType::Bool(BasicType::Bool,std::nullopt,std::nullopt,false);
 const GorgeType GorgeType::String(BasicType::String,std::nullopt,std::nullopt,false);
+GorgeType GorgeType::Enum(const OptString& enum_name,const OptString& namespace_name) {
+    return GorgeType(BasicType::Enum,enum_name, namespace_name, false);
+}
+template <typename... Args>
+GorgeType GorgeType::Object(const OptString& class_name,
+                            const OptString& namespace_name,
+                            Args&&... generics_type) {
+    return GorgeType(BasicType::Object,class_name,namespace_name,false,std::forward<Args>(generics_type)...);
+}
 //TODO:处理这下面的
 // const GorgeType GorgeType::IntArray(BasicType::Int,std::nullopt,std::nullopt,true);

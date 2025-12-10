@@ -2,18 +2,17 @@
 
 #include "basic_type.h"
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
-#include <optional>
 
 using OptString = std::optional<std::string>;
 
 class GorgeType {
-private:
-
+   private:
     OptString full_name;
 
-public:
+   public:
     // 类基础类型
     BasicType basic_type;
     // 类名
@@ -29,14 +28,9 @@ public:
     // 有可能把Injector纳入泛型？
     std::vector<GorgeType> sub_types;
 
-    template<typename... Args>
-    GorgeType(
-        BasicType basic_type,
-        OptString class_name,
-        OptString namespace_name,
-        bool is_generics,
-        Args &&... args
-    );
+    template <typename... Args>
+    GorgeType(BasicType basic_type, OptString class_name,
+              OptString namespace_name, bool is_generics, Args&&... args);
 
     /**
      * 这里对应C#版本的Getter和Setter
@@ -49,14 +43,14 @@ public:
      * @param other 目标类
      * @return 是否是泛型参数类
      */
-    bool is_generics_instance(const std::unique_ptr<GorgeType> &other) const;
+    bool is_generics_instance(const std::unique_ptr<GorgeType>& other) const;
 
     /**
      * 判断两个类的等价性
      * @param other 目标类
      * @return 对比
      */
-    bool operator==(const GorgeType &other) const;
+    bool operator==(const GorgeType& other) const;
 
     /**
      * 获取类的哈希码
@@ -78,11 +72,18 @@ public:
     static const GorgeType BoolList;
     static const GorgeType StringList;
     static const GorgeType ObjectList;
-    static const GorgeType Enum;
-    static const GorgeType Object;
-    static const GorgeType Injector;
-    static const GorgeType Generics;
-    static const GorgeType Interface;
-    static const GorgeType Delegate;
+    //    static const GorgeType Enum;
+    //    static const GorgeType Object;
+    //    static const GorgeType Injector;
+    //    static const GorgeType Generics;
+    //    static const GorgeType Interface;
+    //    static const GorgeType Delegate;
 
+    static GorgeType Enum(const OptString& enum_name,
+                          const OptString& namespace_name = std::nullopt);
+
+    template <typename... Args>
+    static GorgeType Object(const OptString& class_name,
+                            const OptString& namespace_name = std::nullopt,
+                            Args&&... generics_type);
 };

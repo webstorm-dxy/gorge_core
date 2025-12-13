@@ -127,9 +127,7 @@ std::string GorgeType::to_string() const {
     case BasicType::String:
         return "string";
     case BasicType::Object: {
-        std::string full_name_ = class_name.has_value()
-                                     ? class_name.value()
-                                     : "";
+        std::string full_name_ = get_full_name().value_or("");
         if (sub_types.empty()) {
             return namespace_part + full_name_;
         } else {
@@ -142,6 +140,8 @@ std::string GorgeType::to_string() const {
             return namespace_part + full_name_ + "(" + sub_types_str + ")";
         }
     }
+    case BasicType::Enum: 
+        return get_full_name().value_or("") + "(Enum)";
     case BasicType::Interface:
         return namespace_part + (class_name.has_value()
                                      ? class_name.value()

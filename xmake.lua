@@ -2,11 +2,12 @@ add_rules("mode.debug", "mode.release")
 add_requires("boost")
 add_rules("plugin.vsxmake.autoupdate")
 add_rules("plugin.compile_commands.autoupdate", {outputdir = "./"})
+set_languages("c++23")
 
 target("gorge_core_cpp")
     set_kind("shared")
     -- set_toolchains("clang")
-    set_languages("c++23")
+    
     add_packages("boost")
     add_headerfiles("src/objective/**.h")
     add_files("src/lib.cpp","src/objective/*.cpp")
@@ -24,7 +25,7 @@ target("gorge_core")
     set_kind("binary")
     -- set_toolchains("clang")
     add_deps("gorge_core_cpp")
-    set_languages("c++23")
+    
     
     add_files("src/main.cpp")
     

@@ -1,20 +1,35 @@
 add_rules("mode.debug", "mode.release")
 add_requires("boost")
+add_rules("plugin.vsxmake.autoupdate")
 add_rules("plugin.compile_commands.autoupdate", {outputdir = "./"})
-target("foo")
+
+target("gorge_core_cpp")
     set_kind("shared")
-    set_toolchains("clang")
+    -- set_toolchains("clang")
     set_languages("c++23")
     add_packages("boost")
-    add_files("src/foo.cpp","src/objective/*.cpp")
+    add_headerfiles("src/objective/**.h")
+    add_files("src/lib.cpp","src/objective/*.cpp")
+    -- 如果是 Windows，添加 DLL 导出定义
+    if is_plat("windows") then
+        add_defines("GORGE_CORE_CPP_EXPORTS")
+    end
+        
+    -- 确保所有符号都可见（对 Linux/macOS 也有用）
+    if is_plat("linux", "macosx") then
+        add_cxflags("-fvisibility=default")
+    end
 
 target("gorge_core")
     set_kind("binary")
-    set_toolchains("clang")
-    add_deps("foo")
+    -- set_toolchains("clang")
+    add_deps("gorge_core_cpp")
     set_languages("c++23")
+    
     add_files("src/main.cpp")
-
+    
+    add_linkdirs("$(buildir)/$(plat)/$(arch)/$(mode)")
+    add_links("gorge_core_cpp")
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
 --

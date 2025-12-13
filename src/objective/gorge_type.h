@@ -6,13 +6,19 @@
 #include <string>
 #include <vector>
 
+#ifdef GORGE_CORE_CPP_EXPORTS
+    #define GORGE_API __declspec(dllexport)
+#else
+    #define GORGE_API __declspec(dllimport)
+#endif
+
 using OptString = std::optional<std::string>;
 
-class GorgeType {
-   private:
+class GORGE_API GorgeType {
+private:
     OptString full_name;
 
-   public:
+public:
     // 类基础类型
     BasicType basic_type;
     // 类名
@@ -72,13 +78,9 @@ class GorgeType {
     static const GorgeType BoolList;
     static const GorgeType StringList;
     static const GorgeType ObjectList;
-    //    static const GorgeType Enum;
-    //    static const GorgeType Object;
-    //    static const GorgeType Injector;
-    //    static const GorgeType Generics;
-    //    static const GorgeType Interface;
-    //    static const GorgeType Delegate;
 
+
+    // 使用驼峰命名，因为如果在这里使用蛇形命名法，enum会和关键字冲突
     static GorgeType Enum(const OptString& enum_name,
                           const OptString& namespace_name = std::nullopt);
 
@@ -86,4 +88,32 @@ class GorgeType {
     static GorgeType Object(const OptString& class_name,
                             const OptString& namespace_name = std::nullopt,
                             Args&&... generics_type);
+
+    static GorgeType Injector(const GorgeType& injected_class);
+
+    static GorgeType Generics(const OptString& class_name);
+
+    static GorgeType Interface(const OptString& interface_name,
+                               const OptString& namespace_name = std::nullopt);
+
+    template <typename... Args>
+    static GorgeType Delegate(const std::optional<GorgeType>& return_type,
+                              Args&&... args);
+
+    /**
+     * 填充泛型参数类型形成对应的实例类型
+     * @tparam Args 泛型参数类型
+     * @param types 泛型参数类型
+     * @return 泛型实例类型
+     */
+    template <typename... Args>
+    GorgeType create_generics_instance_type(Args&&... types);
+
+    std::string to_string() const;
+    
+    /**
+     * 获取本类型对应的硬编码代码
+     * @return 本类型对应的硬编码代码
+     */
+    std::string hashcode_type();
 };

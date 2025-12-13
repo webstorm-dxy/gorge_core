@@ -33,14 +33,14 @@ int main(int argc, char** argv) {
     auto namespacedClass = GorgeType::Object("MyClass", "MyNamespace");
     std::cout << "Namespaced Class: " << namespacedClass.to_string() << std::endl;
     
-    // // 测试硬编码类型
-    // std::cout << "\nHardcoded Types:" << std::endl;
-    // std::cout << "Int hardcoded: " << GorgeType::Int.hashcode_type() << std::endl;
-    // try {
-    //     std::cout << "IntArray hardcoded: " << GorgeType::IntArray.hashcode_type() << std::endl;
-    // } catch (const std::exception& e) {
-    //     std::cout << "Error: " << e.what() << std::endl;
-    // }
+    // 测试硬编码类型
+    std::cout << "\nHardcoded Types:" << std::endl;
+    std::cout << "Int hardcoded: " << GorgeType::Int.hashcode_type() << std::endl;
+    try {
+        std::cout << "IntArray hardcoded: " << GorgeType::IntArray.hashcode_type() << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
     
     // 测试相等性比较
     std::cout << "\nEquality Tests:" << std::endl;

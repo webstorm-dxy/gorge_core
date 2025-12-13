@@ -168,7 +168,7 @@ std::string GorgeType::to_string() const {
     }
 }
 
-std::string GorgeType::hashcode_type() {
+std::string GorgeType::hashcode_type() const {
     switch (basic_type) {
     case BasicType::Int:
         return "int";

@@ -152,5 +152,5 @@ public:
      * 获取本类型对应的硬编码代码
      * @return 本类型对应的硬编码代码
      */
-    std::string hashcode_type();
+    std::string hashcode_type() const;
 };

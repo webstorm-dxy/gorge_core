@@ -1,15 +1,17 @@
 #pragma once
 
 #include "basic_type.h"
+
+#include <iostream>
 #include <memory>
 #include <optional>
 #include <string>
 #include <vector>
 
 #ifdef GORGE_CORE_CPP_EXPORTS
-    #define GORGE_API __declspec(dllexport)
+#define GORGE_API __declspec(dllexport)
 #else
-    #define GORGE_API __declspec(dllimport)
+#define GORGE_API __declspec(dllimport)
 #endif
 
 using OptString = std::optional<std::string>;
@@ -36,7 +38,11 @@ public:
 
     template <typename... Args>
     GorgeType(BasicType basic_type, OptString class_name,
-              OptString namespace_name, bool is_generics, Args&&... args);
+              OptString namespace_name, bool is_generics, Args&&... args)
+        : basic_type(basic_type), class_name(std::move(class_name)),
+          namespace_name(std::move(namespace_name)),
+          is_generics(is_generics), sub_types{std::forward<Args>(args)...} {
+    }
 
     /**
      * 这里对应C#版本的Getter和Setter
@@ -87,7 +93,10 @@ public:
     template <typename... Args>
     static GorgeType Object(const OptString& class_name,
                             const OptString& namespace_name = std::nullopt,
-                            Args&&... generics_type);
+                            Args&&... generics_type) {
+        return GorgeType(BasicType::Object, class_name, namespace_name, false,
+                         std::forward<Args>(generics_type)...);
+    }
 
     static GorgeType Injector(const GorgeType& injected_class);
 
@@ -98,7 +107,13 @@ public:
 
     template <typename... Args>
     static GorgeType Delegate(const std::optional<GorgeType>& return_type,
-                              Args&&... args);
+                              Args&&... args) {
+        GorgeType sub_type = return_type.or_else([] {
+            std::cout << "return_type is null" << "\n";
+        });
+        return GorgeType(BasicType::Delegate, std::nullopt, std::nullopt, false,
+                         sub_type, std::forward<Args>(args)...);
+    }
 
     /**
      * 填充泛型参数类型形成对应的实例类型
@@ -107,10 +122,32 @@ public:
      * @return 泛型实例类型
      */
     template <typename... Args>
-    GorgeType create_generics_instance_type(Args&&... types);
+    GorgeType create_generics_instance_type(Args&&... types) {
+        if (is_generics)
+            throw std::exception("不能直接填充泛型类本身");
+
+        std::vector<GorgeType> types_vec{std::forward<Args>(types)...};
+
+        std::vector<GorgeType> sub_types_;
+
+        int j = 0;
+
+        for (int i = 0; i < sub_types.size(); ++i) {
+            const GorgeType& sub_type = sub_types.at(i);
+            if (sub_type.is_generics) {
+                sub_types_.push_back(types_vec.at(j));
+                j++;
+            } else {
+                sub_types_.at(i) = sub_types.at(i);
+            }
+        }
+
+        return GorgeType(basic_type, class_name, namespace_name, false,
+                         sub_types_);
+    }
 
     std::string to_string() const;
-    
+
     /**
      * 获取本类型对应的硬编码代码
      * @return 本类型对应的硬编码代码

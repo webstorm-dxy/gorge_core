@@ -6,14 +6,6 @@
 #include <utility>
 #include <boost/functional/hash.hpp>
 
-template <typename... Args>
-GorgeType::GorgeType(const BasicType basic_type, OptString class_name,
-                     OptString namespace_name,
-                     const bool is_generics, Args&&... args)
-    : basic_type(basic_type), class_name(std::move(class_name)),
-      namespace_name(std::move(namespace_name)),
-      is_generics(is_generics), sub_types{std::forward<Args>(args)...} {
-}
 
 OptString GorgeType::get_full_name() const {
     if (!namespace_name.has_value()) {
@@ -218,48 +210,6 @@ std::string GorgeType::hashcode_type() {
     default:
         throw std::runtime_error("类型" + to_string() + "无法生成硬编码代码");
     }
-}
-
-template <typename... Args>
-GorgeType GorgeType::Object(const OptString& class_name,
-                            const OptString& namespace_name,
-                            Args&&... generics_type) {
-    return GorgeType(BasicType::Object, class_name, namespace_name, false,
-                     std::forward<Args>(generics_type)...);
-}
-
-template <typename... Args>
-GorgeType GorgeType::Delegate(const std::optional<GorgeType>& return_type,
-                              Args&&... args) {
-    GorgeType sub_type = return_type.or_else([] {
-        std::cout << "return_type is null" << "\n";
-    });
-    return GorgeType(BasicType::Delegate, std::nullopt, std::nullopt, false,
-                     sub_type, std::forward<Args>(args)...);
-}
-
-template <typename... Args>
-GorgeType GorgeType::create_generics_instance_type(Args&&... types) {
-    if (is_generics)
-        throw std::exception("不能直接填充泛型类本身");
-
-    std::vector<GorgeType> types_vec{std::forward<Args>(types)...};
-
-    std::vector<GorgeType> sub_types_;
-
-    int j = 0;
-
-    for (int i = 0; i < sub_types.size(); ++i) {
-        const GorgeType& sub_type = sub_types.at(i);
-        if (sub_type.is_generics) {
-            sub_types_.push_back(types_vec.at(j));
-            j++;
-        } else {
-            sub_types_.at(i) = sub_types.at(i);
-        }
-    }
-
-    return GorgeType(basic_type, class_name, namespace_name, false, sub_types_);
 }
 
 

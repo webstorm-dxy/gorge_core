@@ -135,7 +135,7 @@ public:
         for (int i = 0; i < sub_types.size(); ++i) {
             const GorgeType& sub_type = sub_types.at(i);
             if (sub_type.is_generics) {
-                sub_types_.push_back(types_vec.at(j));
+                sub_types_.push_back(types_vec.at(j)); // 这里有运行时问题，数组越界了
                 j++;
             } else {
                 sub_types_.at(i) = sub_types.at(i);

@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     
     // 测试枚举类型
     std::cout << "\nEnum Types:" << std::endl;
-    auto myEnum = GorgeType::Enum("MyEnum");
+    auto myEnum = GorgeType::Enum("MyEnum"); //TODO:这里出现的问题，和create_generator_instance_type()函数好似没有关系，为什会出现运行时错误？
     std::cout << "MyEnum: " << myEnum.to_string() << std::endl;
     
     // 测试数组类型

@@ -8,11 +8,7 @@
 #include <string>
 #include <vector>
 
-#ifdef GORGE_CORE_CPP_EXPORTS
-#define GORGE_API __declspec(dllexport)
-#else
-#define GORGE_API __declspec(dllimport)
-#endif
+#include "../lib.h"
 
 using OptString = std::optional<std::string>;
 

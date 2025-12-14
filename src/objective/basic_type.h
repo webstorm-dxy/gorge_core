@@ -3,7 +3,9 @@
 //
 #pragma once
 
-enum class BasicType {
+#include "../lib.h"
+
+enum class GORGE_API BasicType {
     Int,
     Float,
     Bool,

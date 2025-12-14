@@ -1,52 +1,55 @@
 
 #include "lib.h"
+#include "objective/annotation.h"
 #include "objective/gorge_type.h"
 #include <iostream>
 
+
 int main(int argc, char** argv) {
-    std::cout << "add(1, 2) = " << add(1, 2) << std::endl;
+    // 测试 Annotation 功能
+    std::cout << "\nAnnotation Tests:" << "\n";
     
-    // 测试基本类型
-    std::cout << "Basic Types:" << std::endl;
-    std::cout << "Int: " << GorgeType::Int.to_string() << std::endl;
-    std::cout << "Float: " << GorgeType::Float.to_string() << std::endl;
-    std::cout << "Bool: " << GorgeType::Bool.to_string() << std::endl;
-    std::cout << "String: " << GorgeType::String.to_string() << std::endl;
+    // 创建一个注解
+    Annotation myAnnotation("MyAnnotation", GorgeType::Object("MyType"));
     
-    // 测试对象类型
-    std::cout << "\nObject Types:" << std::endl;
-    auto myClass = GorgeType::Object("MyClass");
-    std::cout << "MyClass: " << myClass.to_string() << std::endl;
+    // 测试参数添加和获取
+    std::cout << "\nTesting parameters:" << "\n";
+    int paramValue = 42;
+    bool added = myAnnotation.try_add_parameter("intValue", paramValue);
+    std::cout << "Added parameter: " << (added ? "true" : "false") << "\n";
     
-    // 测试枚举类型
-    std::cout << "\nEnum Types:" << std::endl;
-    auto myEnum = GorgeType::Enum("MyEnum");
-    std::cout << "MyEnum: " << myEnum.to_string() << std::endl;
-    
-    // 测试数组类型
-    std::cout << "\nArray Types:" << std::endl;
-    std::cout << "IntArray: " << GorgeType::IntArray.to_string() << std::endl;
-    std::cout << "StringArray: " << GorgeType::StringArray.to_string() << std::endl;
-    
-    // 测试带命名空间的类型
-    std::cout << "\nNamespaced Types:" << std::endl;
-    auto namespacedClass = GorgeType::Object("MyClass", "MyNamespace");
-    std::cout << "Namespaced Class: " << namespacedClass.to_string() << std::endl;
-    
-    // 测试硬编码类型
-    std::cout << "\nHardcoded Types:" << std::endl;
-    std::cout << "Int hardcoded: " << GorgeType::Int.hashcode_type() << std::endl;
-    try {
-        std::cout << "IntArray hardcoded: " << GorgeType::IntArray.hashcode_type() << std::endl;
-    } catch (const std::exception& e) {
-        std::cout << "Error: " << e.what() << std::endl;
+    std::any retrievedValue;
+    bool found = myAnnotation.try_get_parameter("intValue", retrievedValue);
+    std::cout << "Found parameter: " << (found ? "true" : "false") << "\n";
+    if (found) {
+        int value = std::any_cast<int>(retrievedValue);
+        std::cout << "Retrieved value: " << value << "\n";
     }
     
-    // 测试相等性比较
-    std::cout << "\nEquality Tests:" << std::endl;
-    auto anotherInt = GorgeType::Int;
-    std::cout << "Int == Int: " << (GorgeType::Int == anotherInt ? "true" : "false") << std::endl;
-    std::cout << "Int == Float: " << (GorgeType::Int == GorgeType::Float ? "true" : "false") << std::endl;
+    // 测试元数据添加和获取
+    std::cout << "\nTesting metadata:" << "\n";
+    Metadata metadata(GorgeType::String,"metadata_name" , "metadataValue");
+    bool metadataAdded = myAnnotation.try_add_metadata(metadata);
+    std::cout << "Added metadata: " << (metadataAdded ? "true" : "false") << "\n";
+    
+    Metadata retrievedMetadata = metadata;
+    bool metadataFound = myAnnotation.try_get_metadata("metadataName", retrievedMetadata);
+    std::cout << "Found metadata: " << (metadataFound ? "true" : "false") << "\n";
+    if (metadataFound) {
+        std::cout << "Metadata name: " << retrievedMetadata.name << "\n";
+        std::cout << "Metadata value: " << std::any_cast<std::string>(retrievedMetadata.value) << "\n";
+    }
+    
+    // 测试元数据值添加
+    std::cout << "\nTesting metadata value addition:" << "\n";
+    std::string newValue = "new metadata value";
+    bool valueAdded = myAnnotation.try_add_metadata_value("metadataName", newValue);
+    std::cout << "Added metadata value: " << (valueAdded ? "true" : "false") << "\n";
+    
+    // 再次获取元数据以验证值是否已更新
+    if (metadataFound) {
+        std::cout << "Updated metadata value: " << std::any_cast<std::string>(retrievedMetadata.value) << "\n";
+    }
     
     return 0;
 }

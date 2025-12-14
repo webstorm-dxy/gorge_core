@@ -9,7 +9,7 @@ target("gorge_core_cpp")
     -- set_toolchains("clang")
     
     add_packages("boost")
-    add_headerfiles("src/objective/**.h")
+    add_headerfiles("src/objective/**.h","src/**.h")
     add_files("src/lib.cpp","src/objective/*.cpp")
     -- 如果是 Windows，添加 DLL 导出定义
     if is_plat("windows") then

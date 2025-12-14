@@ -9,9 +9,17 @@ extern "C" {
 #else
 #   define __export
 #endif
+    
+    
 
 __export int add(int a, int b);
 
 #ifdef __cplusplus
 }
+#endif
+
+#ifdef GORGE_CORE_CPP_EXPORTS
+#define GORGE_API __declspec(dllexport)
+#else
+#define GORGE_API __declspec(dllimport)
 #endif

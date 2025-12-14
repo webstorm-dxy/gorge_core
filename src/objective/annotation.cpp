@@ -30,9 +30,9 @@ bool Annotation::try_add_metadata(const Metadata& metadata) const {
 }
 
 bool Annotation::try_get_metadata(const std::string& name,
-                                  Metadata& metadata) const {
+                                  std::unique_ptr<Metadata> metadata) const {
     if (const auto it = _parameters->find(name); it != _parameters->end()) {
-        metadata = std::any_cast<Metadata>(it->second);
+        *metadata = std::any_cast<Metadata>(it->second);
         return true;
     }
     return false;
@@ -41,10 +41,10 @@ bool Annotation::try_get_metadata(const std::string& name,
 bool Annotation::try_add_metadata_value(const std::string& name,
                                         const std::any& value) const {
     //TODO：修复这里的运行时问题
-    // if (Metadata metadata(name,value);
-    //     try_get_metadata(name, metadata)) {
-    //     metadata.value = value;
-    //     return true;
-    // }
+    std::unique_ptr<Metadata> metadata;
+    if (try_get_metadata(name, std::move(metadata))) {
+         metadata->value = value;
+         return true;
+    }
     return false;
 }

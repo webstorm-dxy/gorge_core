@@ -22,8 +22,6 @@ public:
     std::any value;
     GorgeType type;
     
-    // Metadata();
-    
     Metadata(GorgeType type, std::string name): name(std::move(name)), type(
                                                     std::move(type)){}
     
@@ -52,7 +50,8 @@ public:
     
     bool try_add_metadata(const Metadata& metadata) const;
     
-    bool try_get_metadata(const std::string& name, Metadata& metadata) const;
+    bool try_get_metadata(const std::string& name,
+                          std::unique_ptr<Metadata> metadata) const;
     
     bool try_add_metadata_value(const std::string& name, const std::any& value) const;
 

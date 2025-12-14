@@ -31,13 +31,13 @@ int main(int argc, char** argv) {
     Metadata metadata(GorgeType::String,"metadata_name" , "metadataValue");
     bool metadataAdded = myAnnotation.try_add_metadata(metadata);
     std::cout << "Added metadata: " << (metadataAdded ? "true" : "false") << "\n";
-    
-    Metadata retrievedMetadata = metadata;
-    bool metadataFound = myAnnotation.try_get_metadata("metadataName", retrievedMetadata);
+    Metadata* metadata_ptr = &metadata;
+    auto retrievedMetadata = std::make_unique<Metadata>(metadata);
+    bool metadataFound = myAnnotation.try_get_metadata("metadataName", std::move(retrievedMetadata));
     std::cout << "Found metadata: " << (metadataFound ? "true" : "false") << "\n";
     if (metadataFound) {
-        std::cout << "Metadata name: " << retrievedMetadata.name << "\n";
-        std::cout << "Metadata value: " << std::any_cast<std::string>(retrievedMetadata.value) << "\n";
+        std::cout << "Metadata name: " << retrievedMetadata->name << "\n";
+        std::cout << "Metadata value: " << std::any_cast<std::string>(retrievedMetadata->value) << "\n";
     }
     
     // 测试元数据值添加
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
     
     // 再次获取元数据以验证值是否已更新
     if (metadataFound) {
-        std::cout << "Updated metadata value: " << std::any_cast<std::string>(retrievedMetadata.value) << "\n";
+        std::cout << "Updated metadata value: " << std::any_cast<std::string>(retrievedMetadata->value) << "\n";
     }
     
     return 0;

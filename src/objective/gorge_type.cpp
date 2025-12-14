@@ -211,7 +211,3 @@ std::string GorgeType::hashcode_type() const {
         throw std::runtime_error("类型" + to_string() + "无法生成硬编码代码");
     }
 }
-
-
-//TODO:处理这下面的
-// const GorgeType GorgeType::IntArray(BasicType::Int,std::nullopt,std::nullopt,true);

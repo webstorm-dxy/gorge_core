@@ -18,8 +18,14 @@ __export int add(int a, int b);
 }
 #endif
 
+// 当在windows上运行时定义WINDOWS宏，主要用于编译DLL时使用
+
+#ifdef WINDOWS
 #ifdef GORGE_CORE_CPP_EXPORTS
 #define GORGE_API __declspec(dllexport)
 #else
 #define GORGE_API __declspec(dllimport)
+#endif
+#else
+#define GORGE_API
 #endif

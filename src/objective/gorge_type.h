@@ -120,7 +120,7 @@ public:
     template <typename... Args>
     GorgeType create_generics_instance_type(Args&&... types) {
         if (is_generics)
-            throw std::exception("不能直接填充泛型类本身");
+            throw std::runtime_error("不能直接填充泛型类本身");
 
         std::vector<GorgeType> types_vec{std::forward<Args>(types)...};
 

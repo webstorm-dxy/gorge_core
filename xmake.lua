@@ -1,14 +1,30 @@
 add_rules("mode.debug", "mode.release")
+
 add_requires("boost")
+add_requires("fmt",{version = "10.2.1"})
+
 add_rules("plugin.vsxmake.autoupdate")
 add_rules("plugin.compile_commands.autoupdate", {outputdir = "./"})
-set_languages("c++23")
+
+if is_plat("macosx", "linux") then
+    set_toolchains("llvm")
+    add_cxxflags(
+            "-lc++",
+            "-stdlib=libc++"
+    )
+    add_ldflags("-stdlib=libc++")
+end
+set_policy("build.c++.modules", true)
+
 
 target("gorge_core_cpp")
     set_kind("shared")
     -- set_toolchains("clang")
-    
-    add_packages("boost")
+    set_languages("c++23")
+    add_packages(
+        "boost",
+        "fmt"
+    )
     add_headerfiles("src/objective/**.h","src/**.h")
     add_files("src/lib.cpp","src/objective/*.cpp")
     -- 如果是 Windows，添加 DLL 导出定义
@@ -21,15 +37,19 @@ target("gorge_core_cpp")
         add_cxflags("-fvisibility=default")
     end
 
+
 target("gorge_core")
     set_kind("binary")
     -- set_toolchains("clang")
     add_deps("gorge_core_cpp")
-    
-    
+    set_languages("c++23")
+    add_packages(
+        "boost",
+        "fmt"
+    )
     add_files("src/main.cpp")
     
-    add_linkdirs("$(buildir)/$(plat)/$(arch)/$(mode)")
+    --add_linkdirs("$(buildir)/$(plat)/$(arch)/$(mode)")
     add_links("gorge_core_cpp")
 --
 -- If you want to known more usage about xmake, please see https://xmake.io

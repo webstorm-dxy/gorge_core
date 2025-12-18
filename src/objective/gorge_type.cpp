@@ -1,11 +1,9 @@
-#include "gorge_type.h"
-
-#include <functional>
-#include <iostream>
-#include <string>
-#include <utility>
+module;
 #include <boost/functional/hash.hpp>
+module gorge_type;
 
+import std;
+import basic_type;
 
 OptString GorgeType::get_full_name() const {
     if (!namespace_name.has_value()) {
@@ -23,14 +21,15 @@ bool GorgeType::is_generics_instance(
     if (other.get() == this)
         return true;
 
-    return this->basic_type == other->basic_type
-           && this->class_name == other->class_name
-           && this->namespace_name == other->namespace_name
-           && this->sub_types.size() == other->sub_types.size();
+    return this->basic_type == other->basic_type &&
+           this->class_name == other->class_name &&
+           this->namespace_name == other->namespace_name &&
+           this->sub_types.size() == other->sub_types.size();
 }
 
 bool GorgeType::operator==(const GorgeType& other) const {
-    // if (&other == nullptr) return false; //在C++中对引用进行空检查没有必要，因为引用不能为空
+    // if (&other == nullptr) return false;
+    // //在C++中对引用进行空检查没有必要，因为引用不能为空
     if (&other == this)
         return true;
     bool sub_types_is_equals = false;
@@ -46,10 +45,9 @@ bool GorgeType::operator==(const GorgeType& other) const {
         sub_types_is_equals = false;
     }
 
-    return this->basic_type == other.basic_type
-           && this->class_name == other.class_name
-           && this->namespace_name == other.namespace_name
-           && sub_types_is_equals;
+    return this->basic_type == other.basic_type &&
+           this->class_name == other.class_name &&
+           this->namespace_name == other.namespace_name && sub_types_is_equals;
 }
 
 std::size_t GorgeType::get_hash_code() const {
@@ -72,14 +70,15 @@ const GorgeType GorgeType::String(BasicType::String, std::nullopt, std::nullopt,
                                   false);
 const GorgeType GorgeType::IntArray = Object("IntArray", "Gorge");
 
-const GorgeType GorgeType::FloatArray = Object("FloatArray", "Gorge");;
+const GorgeType GorgeType::FloatArray = Object("FloatArray", "Gorge");
+;
 
 const GorgeType GorgeType::BoolArray = Object("BoolArray", "Gorge");
 
 const GorgeType GorgeType::StringArray = Object("StringArray", "Gorge");
 
 const GorgeType GorgeType::ObjectArray(BasicType::Object, "ObjectArray",
-                                       "Gorge", false); //???
+                                       "Gorge", false);  //???
 
 const GorgeType GorgeType::IntList = Object("IntList", "Gorge");
 
@@ -113,9 +112,8 @@ GorgeType GorgeType::Interface(const OptString& interface_name,
 }
 
 std::string GorgeType::to_string() const {
-    std::string namespace_part = namespace_name.has_value()
-                                     ? (namespace_name.value() + ".")
-                                     : "";
+    std::string namespace_part =
+        namespace_name.has_value() ? (namespace_name.value() + ".") : "";
 
     switch (basic_type) {
     case BasicType::Int:
@@ -140,12 +138,12 @@ std::string GorgeType::to_string() const {
             return namespace_part + full_name_ + "(" + sub_types_str + ")";
         }
     }
-    case BasicType::Enum: 
+    case BasicType::Enum:
         return get_full_name().value_or("") + "(Enum)";
     case BasicType::Interface:
-        return namespace_part + (class_name.has_value()
-                                     ? class_name.value()
-                                     : "") + "(Interface)";
+        return namespace_part +
+               (class_name.has_value() ? class_name.value() : "") +
+               "(Interface)";
     case BasicType::Delegate: {
         if (sub_types.empty()) {
             return namespace_part + "delegate:Void()";
@@ -159,12 +157,11 @@ std::string GorgeType::to_string() const {
                 params_str += ",";
             params_str += sub_types.at(i).to_string();
         }
-        return namespace_part + "delegate:" + return_type_str + "(" + params_str
-               + ")";
+        return namespace_part + "delegate:" + return_type_str + "(" +
+               params_str + ")";
     }
     default:
         throw std::runtime_error("未知类型");
-
     }
 }
 
@@ -205,7 +202,8 @@ std::string GorgeType::hashcode_type() const {
         return get_full_name().value_or("");
 
     case BasicType::Delegate:
-        throw std::runtime_error("类型" + to_string() + "暂不支持生成硬编码代码");
+        throw std::runtime_error("类型" + to_string() +
+                                 "暂不支持生成硬编码代码");
 
     default:
         throw std::runtime_error("类型" + to_string() + "无法生成硬编码代码");

@@ -26,7 +26,7 @@ target("gorge_core_cpp")
         "fmt"
     )
     add_headerfiles("src/objective/**.h","src/**.h")
-    add_files("src/lib.cpp","src/objective/*.cpp")
+    add_files("src/lib.cpp","src/objective/*.cpp","src/objective/*.cppm")
     -- 如果是 Windows，添加 DLL 导出定义
     if is_plat("windows") then
         add_defines("GORGE_CORE_CPP_EXPORTS")

@@ -2,7 +2,11 @@
 // Created by daxingyi on 2025/11/11.
 //
 
-#include "annotation.h"
+module annotation;
+
+import std;
+import gorge_type;
+import basic_type;
 
 Annotation::Annotation(std::string name,
                        GorgeType generic_type)

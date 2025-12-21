@@ -1,6 +1,6 @@
 module;
-
 #include "../lib.h"
+#include <fmt/core.h>
 export module gorge_type;
 
 import std;
@@ -101,7 +101,7 @@ public:
     static GorgeType Delegate(const std::optional<GorgeType>& return_type,
                               Args&&... args) {
         GorgeType sub_type = return_type.or_else([] {
-            std::cout << "return_type is null" << "\n";
+            fmt::println("return_type is null");
         });
         return GorgeType(BasicType::Delegate, std::nullopt, std::nullopt, false,
                          sub_type, std::forward<Args>(args)...);

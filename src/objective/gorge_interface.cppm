@@ -10,7 +10,7 @@ import std;
 using OptString = std::optional<std::string>;
 
 class GorgeInterface {
-   public:
+public:
     GorgeType type;
 
     OptString name = type.get_full_name();

@@ -7,7 +7,7 @@ export module method_information;
 import std;
 import gorge_type;
 
-class MethodInformation {
+export class MethodInformation {
     int id;
     std::string name;
     GorgeType return_type;

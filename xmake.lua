@@ -14,6 +14,7 @@ if is_plat("macosx", "linux") then
     )
     add_ldflags("-stdlib=libc++")
 end
+-- set_policy("build.ccache", false)
 set_policy("build.c++.modules", true)
 
 
